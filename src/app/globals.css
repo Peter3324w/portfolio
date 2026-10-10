@@ -1,0 +1,301 @@
+@import "tailwindcss";
+
+/* ─── Aeonik Font ─── */
+@font-face {
+  font-family: 'Aeonik';
+  src: url('/fonts/AeonikTRIAL-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aeonik';
+  src: url('/fonts/AeonikTRIAL-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Type Scale ───
+   Figma conversion:
+   - letter-spacing: percent / 100 → em
+   - line-height: percent / 100 → unitless
+   Add more sizes here as needed.
+*/
+@layer base {
+  :root {
+    --font-aeonik: 'Aeonik', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer components {
+  /* Mobile base sizes (<768px) */
+  .text-h1 {
+    font-family: var(--font-aeonik);
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 1.12;
+    letter-spacing: 0em;
+    text-transform: uppercase;
+  }
+
+  .text-h1-reg {
+    font-family: var(--font-aeonik);
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.12;
+    letter-spacing: 0em;
+    text-transform: uppercase;
+  }
+
+  .text-h2 {
+    font-family: var(--font-aeonik);
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.41;
+    letter-spacing: 0em;
+    text-transform: uppercase;
+  }
+
+  .text-subheading {
+    font-family: var(--font-aeonik);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.12;
+    letter-spacing: 0em;
+    text-transform: uppercase;
+  }
+
+  .text-body {
+    font-family: var(--font-aeonik);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.32;
+    letter-spacing: 0em;
+  }
+
+  /* Tablet (768px+) */
+  @media (min-width: 768px) {
+    .text-h1 { font-size: 48px; }
+    .text-h1-reg { font-size: 48px; }
+    .text-h2 { font-size: 36px; }
+    .text-subheading { font-size: 22px; }
+    .text-body { font-size: 16px; }
+  }
+
+  /* Desktop (1024px+) */
+  @media (min-width: 1024px) {
+    .text-h1 { font-size: 64px; }
+    .text-h1-reg { font-size: 64px; }
+    .text-h2 { font-size: 48px; }
+    .text-subheading { font-size: 28px; }
+    .text-body { font-size: 18px; }
+  }
+}
+
+@layer base {
+  /* ─── Reset ─── */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    min-height: 100%;
+    max-width: 100vw;
+    overflow-x: clip;
+    cursor: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  body {
+    min-height: 100%;
+    max-width: 100vw;
+    overflow-x: clip;
+    cursor: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  a, button, [role="button"], input, textarea, select {
+    cursor: none;
+  }
+
+  body {
+    font-family: var(--font-aeonik);
+  }
+}
+
+/* ─── Blur to Sharp reveal ─── */
+.blur-reveal {
+  filter: blur(12px);
+  opacity: 0;
+  transform: scale(1.06);
+  transition: filter 0.8s ease, opacity 0.6s ease, transform 0.8s ease;
+}
+
+.blur-visible {
+  filter: blur(0);
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Topo background fade-in */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Social icon highlight pulse (triggered from the Socials menu item) */
+@keyframes socialPulse {
+  0%   { transform: scale(1);    filter: drop-shadow(0 0 0 rgba(246,246,246,0)); }
+  20%  { transform: scale(1.2);  filter: drop-shadow(0 0 18px rgba(246,246,246,1)); }
+  40%  { transform: scale(1);    filter: drop-shadow(0 0 4px rgba(246,246,246,0.3)); }
+  60%  { transform: scale(1.15); filter: drop-shadow(0 0 14px rgba(246,246,246,0.9)); }
+  80%  { transform: scale(1);    filter: drop-shadow(0 0 2px rgba(246,246,246,0.2)); }
+  100% { transform: scale(1);    filter: drop-shadow(0 0 0 rgba(246,246,246,0)); }
+}
+
+.animate-social-pulse {
+  animation: socialPulse 2.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Hide scrollbar but keep functionality */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* ─── Black home sections ───
+   Plain (unlayered) CSS on purpose: these are small, self-contained effects
+   and shouldn't compete with Tailwind utilities on specificity. */
+
+/* Vercel-style light behind a screenshot: one blurred pill resting on the
+   image's top edge. The cell clips it (overflow: hidden), which is what gives
+   the light its crisp top and side edges. */
+.shot-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10rem;
+  border-radius: 9999px;
+  background-color: #ededed;
+  filter: blur(120px);
+  opacity: 0.17;
+  pointer-events: none;
+  transition: opacity 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.glow-cell:hover .shot-glow {
+  opacity: 0.28;
+}
+@media (max-width: 600px) {
+  .shot-glow {
+    filter: blur(40px);
+    opacity: 0.12;
+  }
+}
+
+/* The bottom of each screenshot dissolves into the black cell. */
+.shot-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40%;
+  max-height: 10rem;
+  background-image: linear-gradient(to top in oklab, #000 0%, rgb(0 0 0 / 0) 100%);
+  pointer-events: none;
+}
+
+/* Hairline edge around a screenshot, fading out with the image. */
+.shot-edge {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
+}
+
+/* The same pool of light, inked, for the light section. Drawn as a gradient
+   rather than a blurred block: it sits inside layers that get scaled on
+   scroll, and re-blurring a 90px filter on every scale step is what made the
+   skills → CTA stretch stutter. */
+.soft-shade {
+  position: absolute;
+  background-image: radial-gradient(
+    ellipse at center,
+    rgb(17 17 17 / 0.85) 0%,
+    rgb(17 17 17 / 0.4) 45%,
+    rgb(17 17 17 / 0) 72%
+  );
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+/* Attio's hairline hatch: 1px verticals every 8px at 3.5% white. */
+.hatch {
+  background-image: repeating-linear-gradient(
+    to right,
+    rgb(255 255 255 / 0.035) 0 1px,
+    transparent 1px 8px
+  );
+}
+.hatch-ink {
+  background-image: repeating-linear-gradient(
+    to right,
+    rgb(17 17 17 / 0.05) 0 1px,
+    transparent 1px 8px
+  );
+}
+
+/* Clears an oval hole in the hatch behind centred text. */
+.hatch-hole {
+  -webkit-mask-image: radial-gradient(ellipse 55% 42% at 50% 50%, transparent 32%, #000 72%);
+  mask-image: radial-gradient(ellipse 55% 42% at 50% 50%, transparent 32%, #000 72%);
+}
+
+/* Left/right fade on the process funnel canvas. */
+.funnel-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 18%, #000 82%, transparent 100%);
+}
+
+/* Process artboard: the loop inside each fidelity stage. */
+@keyframes paTwinkle {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.85; }
+}
+@keyframes paSpark {
+  from { stroke-dashoffset: 130; }
+  to { stroke-dashoffset: -30; }
+}
+@keyframes paSweep {
+  0% { transform: translateX(0); }
+  65%, 100% { transform: translateX(430px); }
+}
+.pa-twinkle { animation: paTwinkle 4.5s ease-in-out infinite; }
+.pa-spark {
+  stroke-dasharray: 16 130;
+  animation: paSpark 3.2s linear infinite;
+}
+.pa-sweep { animation: paSweep 4.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pa-twinkle,
+  .pa-spark,
+  .pa-sweep {
+    animation: none;
+  }
+  .pa-spark { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shot-glow {
+    transition: none;
+  }
+}
